@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>バイト給料メモ</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="バイト給料">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f3f4f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141917" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" href="data:image/png;base64,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">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>
+/* Layout: one narrow column like a time card — month total on top, two job tiles, add-shift form, shift log, then settings and backup. Records live in this browser's localStorage. */
+:root{
+  --bg:#f3f4f1; --card:#ffffff; --fg:#1d2422; --muted:#66706c; --line:#dde1dc;
+  --accent:#1f6f5c; --accent-soft:#e2efe9; --job2:#8a5a1f; --job2-soft:#f4ebdd; --danger:#b23b2e;
+  --sans:"Zen Kaku Gothic New",system-ui,-apple-system,"Hiragino Sans",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141917; --card:#1c2320; --fg:#e7ece9; --muted:#97a29d; --line:#2e3833;
+  --accent:#5fc3a6; --accent-soft:#1f3a32; --job2:#e0a95e; --job2-soft:#3a2e1d; --danger:#ef7d6f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --card:#1c2320; --fg:#e7ece9; --muted:#97a29d; --line:#2e3833;
+  --accent:#5fc3a6; --accent-soft:#1f3a32; --job2:#e0a95e; --job2-soft:#3a2e1d; --danger:#ef7d6f; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
+.wrap{max-width:560px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+header{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap}
+h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.02em}
+.month{display:flex;align-items:center;gap:6px}
+.month button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:16px;cursor:pointer}
+.month span{min-width:112px;text-align:center;font-weight:700;font-size:13px;font-family:var(--sans)}
+.sync{font-size:12px;color:var(--muted);text-align:right;min-height:1.4em;margin-top:-8px}
+.sync.err{color:var(--danger)}
+.total{background:var(--accent);color:#fff;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+:root[data-theme="dark"] .total{color:#0d1714}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .total{color:#0d1714}}
+.total small{font-size:12px;opacity:.85;letter-spacing:.08em}
+.total .big{font-size:34px;font-weight:600;line-height:1.2}
+.total .sub{font-size:13px;opacity:.9}
+.jobs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.job{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.job .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.j0 .dot{background:var(--accent)} .j1 .dot{background:var(--job2)}
+.job .amt{font-size:20px;font-weight:600}
+.job .meta{font-size:12px;color:var(--muted)}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+h2{font-size:14px;margin:0;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);min-width:0}
+input,select,textarea{font:inherit;font-size:16px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;box-sizing:border-box;min-width:0}
+textarea{resize:vertical;min-height:72px;font-family:var(--mono);font-size:13px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn{font:inherit;font-weight:700;border:none;border-radius:10px;padding:11px;background:var(--fg);color:var(--bg);cursor:pointer}
+.ghost{font:inherit;font-size:13px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:8px 12px;cursor:pointer}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1 1 140px}
+.preview{font-size:13px;color:var(--muted)}
+.preview b{color:var(--fg)}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+li{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+li:first-child{border-top:none}
+.d{font-weight:700;width:58px}
+.d small{display:block;font-weight:400;font-size:11px;color:var(--muted)}
+.info{font-size:13px;min-width:0}
+.info .t{color:var(--muted)}
+.pay{font-weight:600;text-align:right}
+.del{background:none;border:none;color:var(--muted);font:inherit;font-size:18px;cursor:pointer;padding:4px 6px;min-width:32px}
+.del:hover{color:var(--danger)}
+.del.armed{color:var(--danger);font-size:13px;font-weight:700}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:12px 0}
+.note{font-size:12px;color:var(--muted);background:var(--accent-soft);border-radius:8px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+details summary{cursor:pointer;font-weight:700;font-size:14px}
+details[open] summary{margin-bottom:12px}
+.setting{display:flex;flex-direction:column;gap:10px;padding-top:4px}
+.setting + .setting{border-top:1px dashed var(--line);padding-top:12px;margin-top:4px}
+.foot{font-size:12px;color:var(--muted);text-align:center}
+@media (max-width:380px){.jobs{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>バイト給料メモ</h1>
+    <div class="month">
+      <button id="prev" aria-label="前の給料日">‹</button>
+      <span id="mlabel" class="num"></span>
+      <button id="next" aria-label="次の給料日">›</button>
+    </div>
+  </header>
+  <div class="sync" id="sync" role="status"></div>
+
+  <div class="total">
+    <small id="totlabel">見込み給料(交通費込み)</small>
+    <div class="big num" id="tot">¥0</div>
+    <div class="sub" id="totsub"></div>
+  </div>
+
+  <div class="jobs" id="jobs"></div>
+
+  <div class="note" id="samplenote" hidden>
+    <span>いま表示しているのはサンプルです。時給を設定して、シフトを入れ替えてください。</span>
+    <button class="ghost" id="clearSample">サンプルを消す</button>
+  </div>
+
+  <div class="note" id="backupNote" hidden>
+    <span id="backupNoteText"></span>
+    <button class="ghost" id="goBackup">書き出しを開く</button>
+  </div>
+
+  <section>
+    <h2>働いた時間を追加</h2>
+    <div class="grid">
+      <label>日付<input type="date" id="fDate"></label>
+      <label>バイト先<select id="fJob"></select></label>
+      <label>開始<input type="time" id="fStart" value="17:00"></label>
+      <label>終了<input type="time" id="fEnd" value="20:00"></label>
+      <label>休憩(分)<input type="number" id="fBreak" value="0" min="0" step="5" inputmode="numeric"></label>
+      <label>交通費<select id="fTrans"><option value="1">あり</option><option value="0">なし</option></select></label>
+    </div>
+    <div class="preview" id="preview"></div>
+    <button class="btn" id="add">追加する</button>
+  </section>
+
+  <section>
+    <h2>この期間のシフト</h2>
+    <ul id="list"></ul>
+  </section>
+
+  <section>
+    <details id="settingsBox">
+      <summary>給料日・時給・交通費の設定</summary>
+      <div id="settings"></div>
+    </details>
+  </section>
+
+  <section>
+    <details id="backupBox">
+      <summary>バックアップ(書き出し・読み込み)</summary>
+      <div class="setting">
+        <div class="preview" id="lastExport"></div>
+        <div class="row">
+          <button class="btn" id="exportBtn">ファイルに書き出す</button>
+          <button class="ghost" id="copyBtn">コピー</button>
+        </div>
+        <div class="preview" id="exportMsg"></div>
+        <textarea id="exportOut" rows="3" readonly hidden aria-label="書き出した記録"></textarea>
+      </div>
+      <div class="setting">
+        <label>書き出したファイルを選ぶ<input type="file" id="importFile" accept=".json,application/json"></label>
+        <label>または、書き出した中身を貼り付け<textarea id="importText" rows="3"></textarea></label>
+        <div class="row"><button class="ghost" id="importCheck">内容を確認</button></div>
+        <div class="preview" id="importMsg"></div>
+        <button class="btn" id="importGo" hidden>この内容で読み込む</button>
+      </div>
+    </details>
+  </section>
+
+  <p class="foot">22時〜翌5時は深夜手当(時給×1.25)で計算します。税金や社会保険料は引く前の金額です。バイトごとの給料日を過ぎると、そのバイトの見込み給料は次の期間に切り替わります。過ぎた期間の記録は、‹ で戻ると見られます。記録はこの端末のブラウザにだけ保存されます。</p>
+</div>
+
+<script>
+(function(){
+  const KEY="baito-kyuryo-v1";
+  const WD=["日","月","火","水","木","金","土"];
+  const yen=n=>"¥"+Math.round(n).toLocaleString("ja-JP");
+  const pad=n=>String(n).padStart(2,"0");
+  const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+  const $=id=>document.getElementById(id);
+  const rid=()=>Math.random().toString(36).slice(2);
+  function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+  const today=new Date();
+
+  // close: 締日 (31 = 末日), day: 給料日 (31 = 末日), offset: 0 = 締日と同じ月 / 1 = 翌月 / 2 = 翌々月
+  function cleanPay(p){
+    const n=(v,lo,hi,d)=>{v=Math.round(+v);return v>=lo&&v<=hi?v:d};
+    p=p||{};
+    return {close:n(p.close,1,31,31),day:n(p.day,1,31,25),offset:n(p.offset,0,2,1)};
+  }
+  // Each job carries its own 締日・給料日. `legacy` is the single shared setting an earlier version of this page saved.
+  function cleanJobs(a,legacy){
+    const dflt=[{name:"バイトA",wage:1100,trans:300},{name:"バイトB",wage:1150,trans:0}];
+    const lp=cleanPay(legacy);
+    return [0,1].map(i=>{
+      const j=(a&&a[i])||dflt[i];
+      const p=cleanPay({close:j.close!=null?j.close:lp.close,day:j.day!=null?j.day:lp.day,offset:j.offset!=null?j.offset:lp.offset});
+      return {name:String(j.name||("バイト"+(i+1))).slice(0,20),wage:Math.max(0,+j.wage||0),trans:Math.max(0,+j.trans||0),close:p.close,day:p.day,offset:p.offset};
+    });
+  }
+  const validShift=s=>s&&typeof s.date==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(s.date)&&typeof s.start==="string"&&/^\d{1,2}:\d{2}$/.test(s.start)&&typeof s.end==="string"&&/^\d{1,2}:\d{2}$/.test(s.end);
+  const shiftData=s=>({date:s.date,job:s.job===1?1:0,start:s.start,end:s.end,brk:Math.max(0,+s.brk||0),trans:!!s.trans});
+  const cleanShift=s=>Object.assign({id:String(s.id||rid())},shiftData(s));
+  function makeSample(){
+    const out=[],y=today.getFullYear(),m=today.getMonth();
+    for(let d=new Date(y,m,1);d.getMonth()===m;d.setDate(d.getDate()+1)){
+      const w=d.getDay();
+      if(w===1||w===4) out.push({id:rid(),date:ymd(d),job:0,start:"17:00",end:"20:00",brk:0,trans:true});
+      if(w===5) out.push({id:rid(),date:ymd(d),job:1,start:"17:00",end:"20:00",brk:0,trans:true});
+    }
+    return out;
+  }
+
+  // ---- state and storage -------------------------------------------------
+  let jobs=cleanJobs(null), shifts=[], sampleCleared=false, lastExport=null, storageOK=true;
+  let vOff=0; // 0 = the pay each job pays next, -1 = the one before that, +1 = the one after
+  let lastJob=0;
+  let sampleList=makeSample();
+  const showSample=()=>shifts.length===0&&!sampleCleared;
+  const current=()=>showSample()?sampleList:shifts;
+
+  function setSync(t,err){const el=$("sync");el.textContent=t;el.className="sync"+(err?" err":"")}
+  try{localStorage.setItem("_t","1");localStorage.removeItem("_t")}catch(e){storageOK=false}
+  try{
+    const old=JSON.parse(localStorage.getItem(KEY));
+    if(old&&Array.isArray(old.shifts)){
+      jobs=cleanJobs(old.jobs,old.pay);
+      shifts=old.shifts.filter(validShift).map(cleanShift);
+      sampleCleared=old.sample===false;
+      lastExport=typeof old.lastExport==="string"?old.lastExport:null;
+    }
+  }catch(e){}
+  function save(){
+    try{
+      localStorage.setItem(KEY,JSON.stringify({sample:!sampleCleared,jobs:jobs,shifts:shifts,lastExport:lastExport}));
+      setSync("この端末に保存しました");
+      return true;
+    }catch(e){
+      storageOK=false;
+      setSync("保存できませんでした。このブラウザでは記録を残せない設定かもしれません。",true);
+      return false;
+    }
+  }
+  // Ask the browser to keep this site's data when storage runs low (ignored where unsupported).
+  try{if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{})}catch(e){}
+
+  // ---- period helpers ----
+  // A period is named by the month in which it closes: index = year*12 + month(0-11). `c` is one job's settings.
+  const dim=(y,m)=>new Date(y,m+1,0).getDate();
+  const dayOnly=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  function closeDateOf(c,mi){const y=Math.floor(mi/12),m=mi-y*12;return new Date(y,m,Math.min(c.close,dim(y,m)))}
+  function periodIdx(c,ds){const p=ds.split("-").map(Number);const y=p[0],m=p[1]-1,d=p[2];return y*12+m+(d>Math.min(c.close,dim(y,m))?1:0)}
+  function periodRange(c,mi){const e=closeDateOf(c,mi),pv=closeDateOf(c,mi-1);return {start:new Date(pv.getFullYear(),pv.getMonth(),pv.getDate()+1),end:e}}
+  function payDateOf(c,mi){const k=mi+c.offset,y=Math.floor(k/12),m=k-y*12;return new Date(y,m,Math.min(c.day,dim(y,m)))}
+  // the period whose payday is today or later (so it switches the day after payday)
+  function nextPayIdx(c,now){const t=dayOnly(now||new Date());const base=t.getFullYear()*12+t.getMonth();for(let mi=base-4;mi<=base+4;mi++){if(payDateOf(c,mi)>=t)return mi}return base}
+  // ---- end period helpers ----
+
+  const md=d=>(d.getMonth()+1)+"/"+d.getDate();
+  const withYear=d=>(d.getFullYear()===today.getFullYear()?"":d.getFullYear()+"/")+md(d);
+  const fmtD=d=>withYear(d)+"("+WD[d.getDay()]+")";
+  const rangeLabel=r=>withYear(r.start)+"〜"+(r.end.getFullYear()!==r.start.getFullYear()?withYear(r.end):md(r.end));
+  const jobOf=s=>jobs[s.job]||jobs[0];
+
+  // ---- pay calculation ---------------------------------------------------
+  const toMin=t=>{const[h,m]=t.split(":").map(Number);return h*60+m};
+  // returns {total, night} minutes worked; handles overnight shifts
+  function minutes(s){
+    let a=toMin(s.start),b=toMin(s.end); if(b<=a) b+=1440;
+    let night=0;
+    for(const [ns,ne] of [[-120,300],[1320,1740],[2760,3180]]){ // 22:00-29:00 windows (incl. previous night tail)
+      night+=Math.max(0,Math.min(b,ne)-Math.max(a,ns));
+    }
+    const brk=Math.max(0,+s.brk||0);
+    const total=Math.max(0,b-a-brk);
+    night=Math.min(night,total);
+    return {total,night};
+  }
+  function pay(s){
+    const j=jobOf(s);
+    const m=minutes(s);
+    const base=(m.total/60)*j.wage, extra=(m.night/60)*j.wage*0.25;
+    return {mins:m.total,night:m.night,wage:Math.floor(base+extra),trans:s.trans?(+j.trans||0):0};
+  }
+  const hm=m=>Math.floor(m/60)+"時間"+(m%60?(m%60)+"分":"");
+
+  // ---- settings panel ----------------------------------------------------
+  const dayOptions=sel=>Array.from({length:31},(_,i)=>`<option value="${i+1}"${sel===i+1?" selected":""}>${i===30?"末日":(i+1)+"日"}</option>`).join("");
+  function renderSettings(){
+    $("settings").innerHTML=jobs.map((j,i)=>`
+      <div class="setting">
+        <div class="tag j${i}" style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:700"><span class="dot"></span>バイト先 ${i+1}</div>
+        <label>名前<input id="sName${i}" value="${esc(j.name)}"></label>
+        <div class="grid">
+          <label>時給(円)<input id="sWage${i}" type="number" inputmode="numeric" value="${j.wage}"></label>
+          <label>交通費/1回(円)<input id="sTrans${i}" type="number" inputmode="numeric" value="${j.trans}"></label>
+          <label>締日<select id="pClose${i}">${dayOptions(j.close)}</select></label>
+          <label>給料日<select id="pDay${i}">${dayOptions(j.day)}</select></label>
+        </div>
+        <label>支払い月<select id="pOff${i}">
+          <option value="0"${j.offset===0?" selected":""}>締日と同じ月</option>
+          <option value="1"${j.offset===1?" selected":""}>締日の翌月</option>
+          <option value="2"${j.offset===2?" selected":""}>締日の翌々月</option>
+        </select></label>
+        <div class="preview" id="payHint${i}"></div>
+      </div>`).join("");
+    jobs.forEach((_,i)=>{
+      $("sName"+i).oninput=e=>{jobs[i].name=e.target.value||("バイト"+(i+1));save();render()};
+      $("sWage"+i).oninput=e=>{jobs[i].wage=Math.max(0,+e.target.value||0);save();render()};
+      $("sTrans"+i).oninput=e=>{jobs[i].trans=Math.max(0,+e.target.value||0);save();render()};
+      $("pClose"+i).onchange=e=>{jobs[i].close=+e.target.value;vOff=0;save();render()};
+      $("pDay"+i).onchange=e=>{jobs[i].day=+e.target.value;vOff=0;save();render()};
+      $("pOff"+i).onchange=e=>{jobs[i].offset=+e.target.value;vOff=0;save();render()};
+    });
+  }
+
+  // ---- main render -------------------------------------------------------
+  function render(){
+    const now=new Date(), t0=dayOnly(now);
+    const mis=jobs.map(j=>nextPayIdx(j,now)+vOff);
+    const rg=jobs.map((j,i)=>periodRange(j,mis[i])), pds=jobs.map((j,i)=>payDateOf(j,mis[i]));
+    const days=pds.map(p=>Math.round((p-t0)/86400000));
+    // header names the month(s) the money arrives in, e.g. "11月の給料" or "11月・12月の給料"
+    const payMonths=Array.from(new Set(pds.map(p=>p.getFullYear()*12+p.getMonth()))).sort((a,b)=>a-b);
+    const monthTxt=k=>{const y=Math.floor(k/12);return (y===today.getFullYear()?"":y+"年")+(k-y*12+1)+"月"};
+    $("mlabel").textContent=payMonths.map(monthTxt).join("・")+"の給料";
+    const all=current();
+    const kOf=s=>s.job===1?1:0;
+    const rows=all.filter(s=>periodIdx(jobs[kOf(s)],s.date)===mis[kOf(s)]).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:a.start<b.start?-1:1);
+    const per=jobs.map(()=>({wage:0,trans:0,mins:0,n:0}));
+    rows.forEach(s=>{const p=pay(s),t=per[kOf(s)];t.wage+=p.wage;t.trans+=p.trans;t.mins+=p.mins;t.n++});
+    const tw=per.reduce((a,b)=>a+b.wage,0),tt=per.reduce((a,b)=>a+b.trans,0),tm=per.reduce((a,b)=>a+b.mins,0);
+
+    const nearest=pds.reduce((a,b)=>a<b?a:b), dl=Math.round((nearest-t0)/86400000);
+    $("totlabel").textContent=vOff<0?"支払い済みの給料(交通費込み)":vOff>0?"先の給料の見込み(交通費込み)":
+      dl>0?`いちばん近い給料日 ${fmtD(nearest)}・あと${dl}日(交通費込み)`:"今日が給料日です(交通費込み)";
+    $("tot").textContent=yen(tw+tt);
+    let yt=0; const Y=nearest.getFullYear();
+    all.forEach(s=>{const k=kOf(s);if(payDateOf(jobs[k],periodIdx(jobs[k],s.date)).getFullYear()===Y) yt+=pay(s).wage});
+    $("totsub").innerHTML=`給料 <span class="num">${yen(tw)}</span> + 交通費 <span class="num">${yen(tt)}</span> ・ ${rows.length}回 ${hm(tm)}<br>${Y}年に受け取る給料(見込み含む) <span class="num">${yen(yt)}</span>`;
+
+    $("jobs").innerHTML=jobs.map((j,i)=>{
+      let nx="";
+      if(vOff===0){
+        let n2=0; all.filter(s=>kOf(s)===i&&periodIdx(j,s.date)===mis[i]+1).forEach(s=>{const p=pay(s);n2+=p.wage+p.trans});
+        nx=`<br>次の期間は <span class="num">${yen(n2)}</span>`;
+      }
+      return `
+      <div class="job j${i}">
+        <span class="tag"><span class="dot"></span>${esc(j.name)}</span>
+        <span class="amt num">${yen(per[i].wage+per[i].trans)}</span>
+        <span class="meta">${rangeLabel(rg[i])}<br>給料日 ${fmtD(pds[i])}${vOff===0&&days[i]>0?"・あと"+days[i]+"日":""}<br>${per[i].n}回 ・ ${hm(per[i].mins)}${nx}<br>時給 <span class="num">${yen(j.wage)}</span></span>
+      </div>`}).join("");
+
+    $("fJob").innerHTML=jobs.map((j,i)=>`<option value="${i}">${esc(j.name)}</option>`).join("");
+    $("fJob").value=lastJob;
+
+    $("list").innerHTML=rows.length?rows.map(s=>{
+      const d=new Date(s.date+"T00:00"),p=pay(s),j=jobOf(s);
+      return `<li>
+        <span class="d num">${d.getMonth()+1}/${d.getDate()}<small>${WD[d.getDay()]}曜</small></span>
+        <span class="info"><span class="tag j${s.job}" style="display:inline-flex;gap:5px;align-items:center"><span class="dot"></span>${esc(j.name)}</span><br><span class="t num">${esc(s.start)}〜${esc(s.end)}${s.brk>0?` 休憩${s.brk}分`:""}${p.night?" 深夜あり":""}</span></span>
+        <span class="pay num">${yen(p.wage+p.trans)}</span>
+        <button class="del" data-id="${esc(s.id)}" aria-label="削除">×</button>
+      </li>`}).join(""):`<li class="empty" style="display:block">この期間のシフトはまだありません。上のフォームから追加してください。</li>`;
+    $("samplenote").hidden=!showSample();
+
+    jobs.forEach((j,i)=>{
+      const hint=$("payHint"+i); if(!hint) return;
+      const P=nextPayIdx(j,now);
+      let h=`いまの設定だと、${rangeLabel(periodRange(j,P))} の分が ${fmtD(payDateOf(j,P))} に支払われます。`;
+      if(j.offset===0&&j.day<j.close) h+=" 給料日が締日より前になっています。支払い月を確認してください。";
+      hint.textContent=h;
+    });
+    renderBackup();
+    updatePreview();
+  }
+
+  function renderBackup(){
+    let le="まだ書き出していません";
+    let stale=true;
+    if(lastExport){
+      const d=new Date(lastExport);
+      if(!isNaN(d)){le="最後に書き出した日:"+(d.getMonth()+1)+"月"+d.getDate()+"日";stale=(Date.now()-d.getTime())>30*86400000}
+    }
+    $("lastExport").textContent=le;
+    const need=!showSample()&&shifts.length>0&&stale;
+    $("backupNote").hidden=!need;
+    if(need) $("backupNoteText").textContent=lastExport?"記録の書き出しから30日以上たっています。":"記録をまだ書き出していません。機種変更や端末の初期化に備えて、書き出しておくと安心です。";
+  }
+
+  function formShift(){return {date:$("fDate").value,job:+$("fJob").value,start:$("fStart").value,end:$("fEnd").value,brk:+$("fBreak").value||0,trans:$("fTrans").value==="1"}}
+  function updatePreview(){
+    const s=formShift();
+    if(!s.start||!s.end){$("preview").textContent="";return}
+    const p=pay(s);
+    $("preview").innerHTML=`この日の給料:<b class="num">${yen(p.wage+p.trans)}</b>(${hm(p.mins)}${p.night?"・うち深夜"+hm(p.night):""})`;
+  }
+
+  // ---- shift actions -----------------------------------------------------
+  $("fDate").value=ymd(today);
+  ["fDate","fJob","fStart","fEnd","fBreak","fTrans"].forEach(id=>$(id).addEventListener("input",updatePreview));
+  $("fJob").addEventListener("change",e=>{lastJob=+e.target.value});
+  $("add").onclick=()=>{
+    const s=formShift();
+    if(!s.date||!s.start||!s.end) return;
+    lastJob=s.job; sampleCleared=true;
+    shifts=shifts.concat([Object.assign({id:rid()},shiftData(s))]);
+    const j=jobs[s.job]||jobs[0];
+    vOff=periodIdx(j,s.date)-nextPayIdx(j,new Date());
+    save(); render();
+  };
+  function disarm(b){b.classList.remove("armed");b.textContent="×"}
+  $("list").onclick=e=>{
+    const b=e.target.closest(".del"); if(!b) return;
+    if(!b.classList.contains("armed")){
+      document.querySelectorAll(".del.armed").forEach(disarm);
+      b.classList.add("armed"); b.textContent="削除";
+      setTimeout(()=>{if(b.isConnected)disarm(b)},3000);
+      return;
+    }
+    const id=b.dataset.id;
+    if(showSample()){sampleList=sampleList.filter(s=>s.id!==id)}
+    else{shifts=shifts.filter(s=>s.id!==id);save()}
+    render();
+  };
+  $("prev").onclick=()=>{vOff--;render()};
+  $("next").onclick=()=>{vOff++;render()};
+  $("clearSample").onclick=()=>{
+    sampleCleared=true; save(); vOff=0;
+    render(); $("settingsBox").open=true;
+  };
+  $("goBackup").onclick=()=>{$("backupBox").open=true;$("backupBox").scrollIntoView({behavior:"smooth",block:"start"})};
+
+  // ---- backup: export ----------------------------------------------------
+  function exportText(){
+    return JSON.stringify({app:"baito-kyuryo",version:1,exportedAt:new Date().toISOString(),jobs:jobs,shifts:shifts},null,1);
+  }
+  function markExported(){lastExport=new Date().toISOString();save();renderBackup()}
+  $("exportBtn").onclick=()=>{
+    const text=exportText();
+    try{
+      const blob=new Blob([text],{type:"application/json"});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");
+      a.href=url; a.download="baito-kyuryo-"+ymd(new Date())+".json";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      markExported();
+      $("exportMsg").textContent="書き出しました。保存先を選ぶ画面が出ない場合は、「コピー」を使ってください。";
+    }catch(e){
+      $("exportMsg").textContent="ファイルに書き出せませんでした。「コピー」を使ってください。";
+    }
+  };
+  $("copyBtn").onclick=async()=>{
+    const text=exportText();
+    try{
+      await navigator.clipboard.writeText(text);
+      markExported();
+      $("exportMsg").textContent="コピーしました。メモアプリなどに貼り付けて残してください。";
+      $("exportOut").hidden=true;
+    }catch(e){
+      const out=$("exportOut");
+      out.value=text; out.hidden=false; out.focus(); out.select();
+      $("exportMsg").textContent="自動でコピーできませんでした。下の欄を長押しして、全選択してコピーしてください。";
+    }
+  };
+
+  // ---- backup: import (merge by shift id) --------------------------------
+  let staged=null;
+  function parseBackup(text){
+    let o; try{o=JSON.parse(text)}catch(e){return {err:"読み込めませんでした。書き出した内容を、そのまま貼り付けてください。"}}
+    if(!o||o.app!=="baito-kyuryo"||!Array.isArray(o.shifts)) return {err:"このアプリで書き出した記録ではないようです。"};
+    return {jobs:cleanJobs(o.jobs,o.pay),shifts:o.shifts.filter(validShift).map(cleanShift)};
+  }
+  function stage(text){
+    const r=parseBackup(text);
+    if(r.err){staged=null;$("importGo").hidden=true;$("importMsg").textContent=r.err;return}
+    staged=r; $("importGo").hidden=false;
+    $("importMsg").textContent="シフト"+r.shifts.length+"件と、時給・締日・給料日の設定を読み込みます。同じ記録は上書きし、ない記録は追加します。";
+  }
+  $("importFile").onchange=e=>{
+    const f=e.target.files&&e.target.files[0]; if(!f) return;
+    const fr=new FileReader();
+    fr.onload=()=>stage(String(fr.result));
+    fr.onerror=()=>{staged=null;$("importGo").hidden=true;$("importMsg").textContent="ファイルを開けませんでした。"};
+    fr.readAsText(f);
+  };
+  $("importCheck").onclick=()=>{
+    const t=$("importText").value.trim();
+    if(!t){$("importMsg").textContent="ファイルを選ぶか、書き出した内容を貼り付けてください。";return}
+    stage(t);
+  };
+  $("importGo").onclick=()=>{
+    if(!staged) return;
+    const map=new Map(shifts.map(s=>[s.id,s]));
+    staged.shifts.forEach(s=>map.set(s.id,s));
+    shifts=Array.from(map.values()); jobs=staged.jobs;
+    sampleCleared=true; staged=null; vOff=0;
+    save(); renderSettings(); render();
+    $("importGo").hidden=true; $("importText").value="";
+    $("importMsg").textContent="読み込みました。";
+  };
+
+  if(!storageOK) setSync("このブラウザでは記録を残せません。プライベートブラウズを使っていませんか?",true);
+  else setSync("記録はこの端末のブラウザに保存されます");
+  renderSettings(); render();
+})();
+</script>
+</body>
+</html>
