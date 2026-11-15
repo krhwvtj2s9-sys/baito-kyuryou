@@ -18,18 +18,18 @@
 /* Layout: one narrow column like a time card — month total on top, two job tiles, add-shift form, shift log, then settings and backup. Records live in this browser's localStorage. */
 :root{
   --bg:#f3f4f1; --card:#ffffff; --fg:#1d2422; --muted:#66706c; --line:#dde1dc;
-  --accent:#1f6f5c; --accent-soft:#e2efe9; --job2:#8a5a1f; --job2-soft:#f4ebdd; --danger:#b23b2e;
+  --accent:#1f6f5c; --accent-soft:#e2efe9; --job2:#8a5a1f; --job2-soft:#f4ebdd; --danger:#b23b2e; --pend:#c9d0cb;
   --sans:"Zen Kaku Gothic New",system-ui,-apple-system,"Hiragino Sans",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#141917; --card:#1c2320; --fg:#e7ece9; --muted:#97a29d; --line:#2e3833;
-  --accent:#5fc3a6; --accent-soft:#1f3a32; --job2:#e0a95e; --job2-soft:#3a2e1d; --danger:#ef7d6f; color-scheme:dark}}
+  --accent:#5fc3a6; --accent-soft:#1f3a32; --job2:#e0a95e; --job2-soft:#3a2e1d; --danger:#ef7d6f; --pend:#46514b; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#141917; --card:#1c2320; --fg:#e7ece9; --muted:#97a29d; --line:#2e3833;
-  --accent:#5fc3a6; --accent-soft:#1f3a32; --job2:#e0a95e; --job2-soft:#3a2e1d; --danger:#ef7d6f; color-scheme:dark}
+  --accent:#5fc3a6; --accent-soft:#1f3a32; --job2:#e0a95e; --job2-soft:#3a2e1d; --danger:#ef7d6f; --pend:#46514b; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
-.wrap{max-width:560px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+.wrap{max-width:560px;margin:0 auto;padding-block:20px 104px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 header{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap}
 h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.02em}
@@ -83,10 +83,86 @@ details[open] summary{margin-bottom:12px}
 .setting + .setting{border-top:1px dashed var(--line);padding-top:12px;margin-top:4px}
 .foot{font-size:12px;color:var(--muted);text-align:center}
 @media (max-width:380px){.jobs{grid-template-columns:1fr}}
+
+.view{display:flex;flex-direction:column;gap:18px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:8px;background:var(--card);border-top:1px solid var(--line);padding:8px max(16px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.tabbar button{flex:1;font:inherit;font-weight:700;font-size:14px;border:none;border-radius:10px;padding:10px;background:none;color:var(--muted);cursor:pointer}
+.tabbar button.on{background:var(--accent-soft);color:var(--accent)}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{flex:1;font:inherit;font-size:13px;border:none;background:none;color:var(--muted);padding:8px;cursor:pointer}
+.seg button.on{background:var(--fg);color:var(--bg);font-weight:700}
+.hero{background:var(--accent);color:#fff;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+:root[data-theme="dark"] .hero{color:#0d1714}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero{color:#0d1714}}
+.hero small{font-size:12px;opacity:.85;letter-spacing:.08em}
+.hero .big{font-size:34px;font-weight:600;line-height:1.2}
+.hero .sub{font-size:13px;opacity:.9}
+.yr{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.yr:first-child{border-top:none}
+.yr .amtc{text-align:right;font-weight:700}
+.yr .amtc small{display:block;font-weight:400;font-size:11px;color:var(--muted);font-family:var(--sans)}
+.track{height:10px;background:var(--bg);border-radius:5px;overflow:hidden;display:flex}
+.track i{display:block;height:100%}
+.a{background:var(--accent)}.b{background:var(--job2)}
+.p{background:repeating-linear-gradient(45deg,var(--pend) 0 3px,transparent 3px 6px)}
+.chart{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:4px;height:140px;padding-top:8px}
+.col{display:flex;flex-direction:column;justify-content:flex-end;height:100%;border:none;background:none;padding:0;cursor:pointer;min-width:0}
+.col:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.col .st{display:flex;flex-direction:column-reverse;border-radius:3px 3px 0 0;overflow:hidden}
+.col .st i{display:block;width:100%}
+.col.sel .st{outline:2px solid var(--fg);outline-offset:1px}
+.lab .now{font-weight:700;color:var(--fg)}
+.lab{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:4px;font-size:10px;color:var(--muted);text-align:center;line-height:1.2}
+.lab small{display:block;font-size:9px}
+.mrow{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:13px}
+.mrow:first-child{border-top:none}
+.mrow .d{font-size:11px;color:var(--muted);width:auto;font-weight:400}
+.legend{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.legend i.p{border-radius:2px}
+.fxhead{display:flex}
+.fxtabs{display:flex;gap:8px}
+.fxtabs button{flex:1;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:10px;padding:7px;background:var(--card);color:var(--fg);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.fxtabs button.on{border-color:var(--fg);font-weight:700}
+.fxnav{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.fxnav button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:16px;cursor:pointer}
+.fxnav b{font-size:14px;text-align:center}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.box{background:var(--bg);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.box .v{font-size:18px;font-weight:600}
+.box.inp{background:var(--card);border:1px solid var(--fg)}
+.box.inp input{border:none;background:none;padding:0;font-family:var(--mono);font-size:18px;font-weight:600}
+.box.inp input:focus-visible{outline:none}
+.box.inp:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.hint2{font-size:13px}
+.hint2.warn{color:var(--job2)}
+.hint2.ok{color:var(--accent);font-weight:700}
+li.fxrow{grid-template-columns:auto 1fr auto auto}
+li.chg{background:var(--job2-soft);margin:0 -16px;padding-left:16px;padding-right:16px}
+li.panel{display:flex;flex-direction:column;gap:10px;background:var(--bg);margin:0 -16px;padding:12px 16px;border-top:none}
+.edit{display:inline-block;border:1px solid var(--job2);border-radius:6px;padding:0 6px;background:var(--card);color:var(--fg)}
+.old{text-decoration:line-through;color:var(--muted);font-size:11px;margin-left:4px}
+.sum{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;gap:10px}
+.sum.t{border-top:1px solid var(--line);padding-top:8px;font-size:14px}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
+.adj{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:6px 0;border-top:1px solid var(--line);gap:8px}
+.adj:first-child{border-top:none}
+.dash{border:1px dashed var(--line);background:none;color:var(--muted);font:inherit;font-size:13px;border-radius:8px;padding:8px;cursor:pointer}
+.fxform{display:flex;flex-direction:column;gap:10px;padding:12px;background:var(--bg);border-radius:10px}
+.msg{font-size:12px;color:var(--danger)}
+
+.mdet{background:var(--bg);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.mhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14px}
+.mhead .num{font-size:18px}
+.jrow{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding-top:8px;border-top:1px solid var(--line);font-size:13px}
+.jrow .d{grid-column:1 / -1;font-size:11px;color:var(--muted);font-weight:400;width:auto}
+.jrow .tag{display:inline-flex;align-items:center;gap:6px;font-weight:700}
 </style>
 </head>
 <body>
 <div class="wrap">
+
+<div class="view" id="viewLog">
   <header>
     <h1>バイト給料メモ</h1>
     <div class="month">
@@ -104,6 +180,11 @@ details[open] summary{margin-bottom:12px}
   </div>
 
   <div class="jobs" id="jobs"></div>
+
+  <div class="note" id="dueNote" hidden>
+    <span id="dueNoteText"></span>
+    <button class="ghost" id="dueGo">給料日の確認を開く</button>
+  </div>
 
   <div class="note" id="samplenote" hidden>
     <span>いま表示しているのはサンプルです。時給を設定して、シフトを入れ替えてください。</span>
@@ -134,6 +215,8 @@ details[open] summary{margin-bottom:12px}
     <ul id="list"></ul>
   </section>
 
+  <p class="foot">22時〜翌5時は深夜手当(時給×1.25)で計算します。税金や社会保険料は引く前の金額です。バイトごとの給料日を過ぎると、そのバイトの見込み給料は次の期間に切り替わります。過ぎた期間の記録は、‹ で戻ると見られます。記録はこの端末のブラウザにだけ保存されます。</p>
+
   <section>
     <details id="settingsBox">
       <summary>給料日・時給・交通費の設定</summary>
@@ -163,8 +246,29 @@ details[open] summary{margin-bottom:12px}
     </details>
   </section>
 
-  <p class="foot">22時〜翌5時は深夜手当(時給×1.25)で計算します。税金や社会保険料は引く前の金額です。バイトごとの給料日を過ぎると、そのバイトの見込み給料は次の期間に切り替わります。過ぎた期間の記録は、‹ で戻ると見られます。記録はこの端末のブラウザにだけ保存されます。</p>
+  <section id="fxSec">
+    <details id="fxBox">
+      <summary>給料の修正(月ごと)</summary>
+      <div class="setting">
+        <div class="preview">明細の金額を月ごとにまとめて入れて、記録とそろえます。</div>
+        <div class="sync" id="sync2" role="status"></div>
+        <div id="fxBody" class="view"></div>
+      </div>
+    </details>
+  </section>
 </div>
+
+<div class="view" id="viewSum" hidden>
+  <h1>収入のまとめ</h1>
+  <div id="sumBody" class="view"></div>
+</div>
+
+</div>
+
+<nav class="tabbar" aria-label="画面の切り替え">
+  <button id="tabLog" class="on">記録</button>
+  <button id="tabSum">収入のまとめ</button>
+</nav>
 
 <script>
 (function(){
@@ -195,7 +299,12 @@ details[open] summary{margin-bottom:12px}
     });
   }
   const validShift=s=>s&&typeof s.date==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(s.date)&&typeof s.start==="string"&&/^\d{1,2}:\d{2}$/.test(s.start)&&typeof s.end==="string"&&/^\d{1,2}:\d{2}$/.test(s.end);
-  const shiftData=s=>({date:s.date,job:s.job===1?1:0,start:s.start,end:s.end,brk:Math.max(0,+s.brk||0),trans:!!s.trans});
+  const TIME=/^\d{1,2}:\d{2}$/;
+  function cleanO(o){return o&&TIME.test(o.start)&&TIME.test(o.end)?{start:o.start,end:o.end,brk:Math.max(0,+o.brk||0),trans:!!o.trans}:null}
+  const shiftData=s=>{const r={date:s.date,job:s.job===1?1:0,start:s.start,end:s.end,brk:Math.max(0,+s.brk||0),trans:!!s.trans};const o=cleanO(s.o);if(o)r.o=o;if(s.ad)r.ad=1;return r};
+  const DATE=/^\d{4}-\d{2}-\d{2}$/;
+  const cleanAdj=a=>a&&typeof a.date==="string"&&DATE.test(a.date)&&isFinite(+a.amount)?{id:String(a.id||rid()),job:a.job===1?1:0,date:a.date,label:String(a.label||"").slice(0,20),amount:Math.round(+a.amount)}:null;
+  function cleanConf(c){const out={};if(c&&typeof c==="object")Object.keys(c).forEach(k=>{const v=c[k];if(/^[01]\|\d{4}-\d{2}-\d{2}$/.test(k)&&v&&isFinite(+v.amt))out[k]={amt:Math.round(+v.amt),at:typeof v.at==="string"?v.at:null}});return out}
   const cleanShift=s=>Object.assign({id:String(s.id||rid())},shiftData(s));
   function makeSample(){
     const out=[],y=today.getFullYear(),m=today.getMonth();
@@ -208,27 +317,30 @@ details[open] summary{margin-bottom:12px}
   }
 
   // ---- state and storage -------------------------------------------------
-  let jobs=cleanJobs(null), shifts=[], sampleCleared=false, lastExport=null, storageOK=true;
+  let jobs=cleanJobs(null), shifts=[], adjs=[], conf={}, sampleCleared=false, lastExport=null, storageOK=true;
+  let screen="log"; // "log" | "sum"
   let vOff=0; // 0 = the pay each job pays next, -1 = the one before that, +1 = the one after
   let lastJob=0;
   let sampleList=makeSample();
   const showSample=()=>shifts.length===0&&!sampleCleared;
   const current=()=>showSample()?sampleList:shifts;
 
-  function setSync(t,err){const el=$("sync");el.textContent=t;el.className="sync"+(err?" err":"")}
+  function setSync(t,err){document.querySelectorAll(".sync").forEach(el=>{el.textContent=t;el.className="sync"+(err?" err":"")})}
   try{localStorage.setItem("_t","1");localStorage.removeItem("_t")}catch(e){storageOK=false}
   try{
     const old=JSON.parse(localStorage.getItem(KEY));
     if(old&&Array.isArray(old.shifts)){
       jobs=cleanJobs(old.jobs,old.pay);
       shifts=old.shifts.filter(validShift).map(cleanShift);
+      adjs=(Array.isArray(old.adjs)?old.adjs:[]).map(cleanAdj).filter(Boolean);
+      conf=cleanConf(old.conf);
       sampleCleared=old.sample===false;
       lastExport=typeof old.lastExport==="string"?old.lastExport:null;
     }
   }catch(e){}
   function save(){
     try{
-      localStorage.setItem(KEY,JSON.stringify({sample:!sampleCleared,jobs:jobs,shifts:shifts,lastExport:lastExport}));
+      localStorage.setItem(KEY,JSON.stringify({sample:!sampleCleared,jobs:jobs,shifts:shifts,adjs:adjs,conf:conf,lastExport:lastExport}));
       setSync("この端末に保存しました");
       return true;
     }catch(e){
@@ -257,6 +369,9 @@ details[open] summary{margin-bottom:12px}
   const fmtD=d=>withYear(d)+"("+WD[d.getDay()]+")";
   const rangeLabel=r=>withYear(r.start)+"〜"+(r.end.getFullYear()!==r.start.getFullYear()?withYear(r.end):md(r.end));
   const jobOf=s=>jobs[s.job]||jobs[0];
+  const kOf=s=>s.job===1?1:0;
+  const confKey=(k,pi)=>k+"|"+ymd(closeDateOf(jobs[k],pi));
+  const confOf=(k,pi)=>conf[confKey(k,pi)]||null;
 
   // ---- pay calculation ---------------------------------------------------
   const toMin=t=>{const[h,m]=t.split(":").map(Number);return h*60+m};
@@ -312,6 +427,10 @@ details[open] summary{margin-bottom:12px}
 
   // ---- main render -------------------------------------------------------
   function render(){
+    renderLog();
+    if(screen==="sum") renderSum();
+  }
+  function renderLog(){
     const now=new Date(), t0=dayOnly(now);
     const mis=jobs.map(j=>nextPayIdx(j,now)+vOff);
     const rg=jobs.map((j,i)=>periodRange(j,mis[i])), pds=jobs.map((j,i)=>payDateOf(j,mis[i]));
@@ -321,7 +440,6 @@ details[open] summary{margin-bottom:12px}
     const monthTxt=k=>{const y=Math.floor(k/12);return (y===today.getFullYear()?"":y+"年")+(k-y*12+1)+"月"};
     $("mlabel").textContent=payMonths.map(monthTxt).join("・")+"の給料";
     const all=current();
-    const kOf=s=>s.job===1?1:0;
     const rows=all.filter(s=>periodIdx(jobs[kOf(s)],s.date)===mis[kOf(s)]).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:a.start<b.start?-1:1);
     const per=jobs.map(()=>({wage:0,trans:0,mins:0,n:0}));
     rows.forEach(s=>{const p=pay(s),t=per[kOf(s)];t.wage+=p.wage;t.trans+=p.trans;t.mins+=p.mins;t.n++});
@@ -360,6 +478,8 @@ details[open] summary{margin-bottom:12px}
         <button class="del" data-id="${esc(s.id)}" aria-label="削除">×</button>
       </li>`}).join(""):`<li class="empty" style="display:block">この期間のシフトはまだありません。上のフォームから追加してください。</li>`;
     $("samplenote").hidden=!showSample();
+    renderDue(now);
+    if(!$("fxBody").contains(document.activeElement)) renderFix();
 
     jobs.forEach((j,i)=>{
       const hint=$("payHint"+i); if(!hint) return;
@@ -428,9 +548,198 @@ details[open] summary{margin-bottom:12px}
   };
   $("goBackup").onclick=()=>{$("backupBox").open=true;$("backupBox").scrollIntoView({behavior:"smooth",block:"start"})};
 
+  // ---- screens and tabs --------------------------------------------------
+  function show(name){
+    screen=name;
+    $("viewLog").hidden=name!=="log";
+    $("viewSum").hidden=name!=="sum";
+    $("tabLog").classList.toggle("on",name==="log");
+    $("tabSum").classList.toggle("on",name==="sum");
+    if(name==="log") renderLog();
+    if(name==="sum") renderSum();
+    window.scrollTo(0,0);
+  }
+  $("tabLog").onclick=()=>show("log");
+  $("tabSum").onclick=()=>show("sum");
+
+  // ---- earnings entries (shift pay, adjustments, and confirmed differences) ----
+  function computeEntries(){
+    const out=[];
+    current().forEach(s=>{const p=pay(s);out.push({job:kOf(s),date:s.date,amt:p.wage+p.trans})});
+    if(showSample()) return out;
+    adjs.forEach(a=>out.push({job:a.job,date:a.date,amt:a.amount}));
+    Object.keys(conf).forEach(key=>{
+      const k=+key[0], end=key.slice(2), c=jobs[k], pi=periodIdx(c,end);
+      let sum=0; out.forEach(e=>{if(e.job===k&&periodIdx(c,e.date)===pi) sum+=e.amt});
+      out.push({job:k,date:end,amt:conf[key].amt-sum});
+    });
+    return out;
+  }
+  const monthTxt2=k=>{const y=Math.floor(k/12);return (y===today.getFullYear()?"":y+"年")+(k-y*12+1)+"月"};
+  const monthFull=k=>{const y=Math.floor(k/12);return y+"年"+(k-y*12+1)+"月"};
+
+  // ---- 収入のまとめ ---------------------------------------------------------
+  const sumMode="pay"; // 給料が入る月で数える
+  let sumSel=null;
+  $("sumBody").addEventListener("click",e=>{const c=e.target.closest(".col");if(!c) return;sumSel=+c.dataset.k;renderSum()});
+  function renderSum(){
+    const t0=dayOnly(new Date()), nowKey=t0.getFullYear()*12+t0.getMonth();
+    const ent=computeEntries();
+    const months={}, years={};
+    let totR=0,totP=0,minKey=null,maxKey=null;
+    ent.forEach(e=>{
+      const c=jobs[e.job], pi=periodIdx(c,e.date), pd=payDateOf(c,pi), recv=pd<=t0;
+      const dp=e.date.split("-"), wk=(+dp[0])*12+(+dp[1])-1, pk=pd.getFullYear()*12+pd.getMonth();
+      const key=sumMode==="pay"?pk:wk;
+      const m=months[key]||(months[key]={a:0,b:0,p:0,jobs:{}});
+      const y=years[Math.floor(key/12)]||(years[Math.floor(key/12)]={a:0,b:0,p:0});
+      const f=recv?(e.job===0?"a":"b"):"p";
+      m[f]+=e.amt; y[f]+=e.amt;
+      if(recv) totR+=e.amt; else totP+=e.amt;
+      const jr=m.jobs[e.job]||(m.jobs[e.job]={amt:0,pd:pd,recv:recv,conf:true,pi:pi});
+      jr.amt+=e.amt; if(!confOf(e.job,pi)) jr.conf=false;
+      if(minKey===null||key<minKey) minKey=key;
+      if(maxKey===null||key>maxKey) maxKey=key;
+    });
+    let h="";
+    if(showSample()) h+=`<div class="note"><span>いまはサンプルの記録で表示しています。</span></div>`;
+    if(minKey===null){
+      $("sumBody").innerHTML=h+`<section><div class="empty">まだ記録がありません。「記録」の画面からシフトを追加してください。</div></section>`;
+      return;
+    }
+    const first=monthFull(minKey);
+    if(sumMode==="pay"){
+      h+=`<div class="hero"><small>これまでに受け取った合計(交通費込み)</small><div class="big num">${yen(totR)}</div><div class="sub">${first}から${totP>0?" ・ このほか見込み "+yen(totP):""}</div></div>`;
+    }else{
+      h+=`<div class="hero"><small>これまでに働いた分の合計(交通費込み)</small><div class="big num">${yen(totR+totP)}</div><div class="sub">${first}から ・ ${totP>0?"うち、まだ入っていない分 "+yen(totP):"すべて受け取り済み"}</div></div>`;
+    }
+    // years
+    const ys=Object.keys(years).map(Number).sort((a,b)=>b-a);
+    const ymax=Math.max(1,...ys.map(y=>years[y].a+years[y].b+years[y].p));
+    h+=`<section><h2>年ごと</h2><div>`+ys.map(y=>{
+      const v=years[y], tot=v.a+v.b+v.p, w=x=>Math.max(0,x)/ymax*100;
+      return `<div class="yr"><b class="num">${y}年</b><div class="track"><i class="a" style="width:${w(v.a)}%"></i><i class="b" style="width:${w(v.b)}%"></i><i class="p" style="width:${w(v.p)}%"></i></div><div class="amtc num">${yen(tot)}${v.p>0?`<small>うち${sumMode==="pay"?"見込み":"未入金"} ${yen(v.p)}</small>`:""}</div></div>`;
+    }).join("")+`</div><div class="legend"><span><i class="a"></i>${esc(jobs[0].name)}</span><span><i class="b"></i>${esc(jobs[1].name)}</span><span><i class="p"></i>${sumMode==="pay"?"まだ入っていない見込み":"まだ入っていない分"}</span></div></section>`;
+    // months chart
+    const end=Math.max(maxKey,nowKey), start=end-10;
+    const sel=(sumSel!==null&&sumSel>=start&&sumSel<=end)?sumSel:(months[nowKey]?nowKey:maxKey);
+    let mmax=1; for(let k=start;k<=end;k++){const m=months[k];if(m) mmax=Math.max(mmax,m.a+m.b+m.p)}
+    let cols="",labs="";
+    for(let k=start;k<=end;k++){
+      const m=months[k]||{a:0,b:0,p:0}, tot=m.a+m.b+m.p, ht=x=>Math.max(0,x)/(tot||1)*100;
+      const mo=k-Math.floor(k/12)*12+1, yy=Math.floor(k/12);
+      cols+=`<button class="col${k===sel?" sel":""}" data-k="${k}" aria-label="${monthTxt2(k)} ${yen(tot)}" aria-pressed="${k===sel}"><div class="st" style="height:${Math.max(0,tot)/mmax*100}%"><i class="a" style="height:${ht(m.a)}%"></i><i class="b" style="height:${ht(m.b)}%"></i><i class="p" style="height:${ht(m.p)}%"></i></div></button>`;
+      labs+=`<span${k===nowKey?' class="now"':""}>${mo}月${(k===start||mo===1)?`<small>${yy}</small>`:""}</span>`;
+    }
+    h+=`<section><h2>月ごと(直近11か月)</h2><div class="chart" role="group" aria-label="月ごとの収入の棒グラフ">${cols}</div><div class="lab">${labs}</div>`;
+    const dm=months[sel];
+    if(dm){
+      h+=`<div class="mdet"><div class="mhead"><b>${monthFull(sel)}の給料</b><b class="num">${yen(dm.a+dm.b+dm.p)}</b></div>`+[0,1].filter(k=>dm.jobs[k]).map(k=>{
+        const jr=dm.jobs[k], r=periodRange(jobs[k],jr.pi), st=jr.conf&&jr.recv?"確定":jr.recv?"受け取り済み":"見込み";
+        return `<div class="jrow"><span class="tag j${k}"><span class="dot"></span>${esc(jobs[k].name)}</span><b class="num">${yen(jr.amt)}</b><div class="d">${rangeLabel(r)} の分 ・ 給料日 ${md(jr.pd)} ・ ${st}</div></div>`;
+      }).join("")+`</div>`;
+    }else{
+      h+=`<div class="mdet"><div class="mhead"><b>${monthFull(sel)}の給料</b></div><div class="muted" style="font-size:12px;color:var(--muted)">この月に入る給料はありません。</div></div>`;
+    }
+    h+=`<div class="muted" style="font-size:12px;color:var(--muted)">${sumMode==="pay"?"給料が入る月で数えています。棒をタップすると、その月の中身が見られます。しま模様は、まだ入っていない見込みです。":"働いた日の月で数えています。しま模様は、まだ入っていない分です。"}</div></section>`;
+    $("sumBody").innerHTML=h;
+  }
+
+  // ---- 給料の修正(月ごと)---------------------------------------------------
+  let fxJob=0, fxPi=null, fxStmt="", fxKey="";
+  const shiftsOf=(k,pi)=>shifts.filter(s=>kOf(s)===k&&periodIdx(jobs[k],s.date)===pi);
+  const adjsOf=(k,pi)=>adjs.filter(a=>a.job===k&&periodIdx(jobs[k],a.date)===pi);
+  const sumPay=s=>{const p=pay(s);return p.wage+p.trans};
+  function fxCalcTotal(k,pi){return shiftsOf(k,pi).reduce((a,s)=>a+sumPay(s),0)+adjsOf(k,pi).reduce((a,x)=>a+x.amount,0)}
+  function defaultFixPi(k){
+    const t0=dayOnly(new Date()), c=jobs[k], P=nextPayIdx(c,t0);
+    return +payDateOf(c,P)===+t0?P:P-1;
+  }
+  // periods that have been paid, have shifts, and are not confirmed yet (within 60 days)
+  function dueItems(now){
+    const t0=dayOnly(now), out=[];
+    if(showSample()) return out;
+    jobs.forEach((c,k)=>{
+      const P=nextPayIdx(c,t0);
+      for(let pi=P;pi>=P-2;pi--){
+        const pd=payDateOf(c,pi);
+        if(pd>t0||Math.round((t0-pd)/86400000)>60) continue;
+        if(shiftsOf(k,pi).length&&!confOf(k,pi)) out.push({k:k,pi:pi,pd:pd});
+      }
+    });
+    return out;
+  }
+  function renderDue(now){
+    const list=dueItems(now);
+    $("dueNote").hidden=!list.length;
+    if(!list.length) return;
+    const d=list[0], r=periodRange(jobs[d.k],d.pi), t0=dayOnly(now), same=+d.pd===+t0;
+    $("dueNoteText").textContent=`${jobs[d.k].name}の給料日(${md(d.pd)})${same?"です":"が過ぎました"}。${rangeLabel(r)} の分を、明細の金額と合わせましょう。`+(list.length>1?`(ほか${list.length-1}件)`:"");
+    $("dueGo").onclick=()=>{fxJob=d.k;fxPi=d.pi;fxKey="";$("fxBox").open=true;renderFix();$("fxSec").scrollIntoView({behavior:"smooth",block:"start"})};
+  }
+  const fxStmtNum=()=>{const v=String(fxStmt).replace(/[,\s¥]/g,"");return v!==""&&/^\d+$/.test(v)?+v:null};
+  const signed=n=>(n>=0?"+":"−")+yen(Math.abs(n));
+
+  function renderFix(){
+    const body=$("fxBody");
+    if(showSample()){
+      body.innerHTML=`<div class="empty">いまはサンプルの記録です。シフトを入れると使えます。</div>`;
+      return;
+    }
+    if(fxPi===null) fxPi=defaultFixPi(fxJob);
+    const j=jobs[fxJob], pi=fxPi, rg=periodRange(j,pi), pd=payDateOf(j,pi), t0=dayOnly(new Date());
+    const cf=confOf(fxJob,pi), locked=!!cf;
+    const key=fxJob+"|"+pi; if(fxKey!==key){fxKey=key;fxStmt=cf?String(cf.amt):""}
+    const dl=Math.round((pd-t0)/86400000);
+    const when=dl<0?`給料日 ${fmtD(pd)}(支払い済み)`:dl===0?`今日が給料日です(${fmtD(pd)})`:`給料日 ${fmtD(pd)}・あと${dl}日`;
+    const sh=shiftsOf(fxJob,pi), mins=sh.reduce((a,s)=>a+pay(s).mins,0);
+    let h=`<div class="fxtabs">`+jobs.map((x,i)=>`<button data-fxjob="${i}" class="${i===fxJob?"on":""}"><span class="dot" style="background:${i===0?"var(--accent)":"var(--job2)"}"></span>${esc(x.name)}</button>`).join("")+`</div>`;
+    h+=`<div class="fxnav"><button id="fxPrev" aria-label="前の月">‹</button><b>${rangeLabel(rg)} の分${locked?` <span class="badge">確定</span>`:""}</b><button id="fxNext" aria-label="次の月">›</button></div>`;
+    h+=`<div class="preview" style="text-align:center">${when}</div>`;
+    h+=`<div class="cmp"><div class="box"><span style="font-size:12px;color:var(--muted)">記録から計算</span><span class="v num" id="fxCalc"></span><span style="font-size:11px;color:var(--muted)">${sh.length}回 ・ ${hm(mins)}</span></div>`+
+       `<label class="box inp"><span style="font-size:12px;color:var(--muted)">明細の金額(入力)</span><input id="fxStmtIn" class="num" type="text" inputmode="numeric" placeholder="例 48350" value="${esc(fxStmt)}"${locked?" disabled":""} aria-label="明細の金額"></label></div>`;
+    h+=`<div class="hint2" id="fxHint"></div>`;
+    h+=locked?`<button class="btn" id="fxUnlock">確定を解除して直す</button><div class="preview">確定すると、「収入のまとめ」には明細の金額が使われます。</div>`
+             :`<button class="btn" id="fxConfirm">この金額で確定する</button><div class="preview">確定すると、この月の金額は明細の金額で集計されます。記録との差は、この期間の最後の日にまとめて入ります。あとから解除して直すこともできます。</div>`;
+    body.innerHTML=h;
+    updateFixLive();
+  }
+  function updateFixLive(){
+    const total=fxCalcTotal(fxJob,fxPi), cf=confOf(fxJob,fxPi), stmt=fxStmtNum();
+    const e=$("fxCalc"); if(e) e.textContent=yen(total);
+    const hint=$("fxHint");
+    if(hint){
+      let t="",cls="hint2";
+      if(cf){t=`確定済み(明細 ${yen(cf.amt)})`;cls+=" ok"}
+      else if(stmt===null){t="明細の金額を入れると、記録との差が出ます。"}
+      else{
+        const d=stmt-total;
+        if(d===0){t="明細と一致しました";cls+=" ok"}
+        else{t=`明細は記録より ${yen(Math.abs(d))} ${d>0?"多い":"少ない"}です(差 ${signed(d)})。`;cls+=" warn"}
+      }
+      hint.textContent=t; hint.className=cls;
+    }
+    const b=$("fxConfirm"); if(b) b.disabled=stmt===null;
+  }
+  const fxBodyEl=$("fxBody");
+  fxBodyEl.addEventListener("click",e=>{
+    const t=e.target.closest("button"); if(!t) return;
+    if(t.dataset.fxjob!==undefined){fxJob=+t.dataset.fxjob;fxPi=defaultFixPi(fxJob);fxKey="";return renderFix()}
+    if(t.id==="fxPrev"){fxPi--;return renderFix()}
+    if(t.id==="fxNext"){fxPi++;return renderFix()}
+    if(t.id==="fxConfirm"){
+      const v=fxStmtNum(); if(v===null) return;
+      conf[confKey(fxJob,fxPi)]={amt:v,at:new Date().toISOString()}; save(); render(); renderFix(); return;
+    }
+    if(t.id==="fxUnlock"){delete conf[confKey(fxJob,fxPi)]; save(); render(); renderFix(); return}
+  });
+  fxBodyEl.addEventListener("input",e=>{
+    if(e.target.id==="fxStmtIn"){fxStmt=e.target.value;updateFixLive()}
+  });
+
   // ---- backup: export ----------------------------------------------------
   function exportText(){
-    return JSON.stringify({app:"baito-kyuryo",version:1,exportedAt:new Date().toISOString(),jobs:jobs,shifts:shifts},null,1);
+    return JSON.stringify({app:"baito-kyuryo",version:2,exportedAt:new Date().toISOString(),jobs:jobs,shifts:shifts,adjs:adjs,conf:conf},null,1);
   }
   function markExported(){lastExport=new Date().toISOString();save();renderBackup()}
   $("exportBtn").onclick=()=>{
@@ -467,13 +776,13 @@ details[open] summary{margin-bottom:12px}
   function parseBackup(text){
     let o; try{o=JSON.parse(text)}catch(e){return {err:"読み込めませんでした。書き出した内容を、そのまま貼り付けてください。"}}
     if(!o||o.app!=="baito-kyuryo"||!Array.isArray(o.shifts)) return {err:"このアプリで書き出した記録ではないようです。"};
-    return {jobs:cleanJobs(o.jobs,o.pay),shifts:o.shifts.filter(validShift).map(cleanShift)};
+    return {jobs:cleanJobs(o.jobs,o.pay),shifts:o.shifts.filter(validShift).map(cleanShift),adjs:(Array.isArray(o.adjs)?o.adjs:[]).map(cleanAdj).filter(Boolean),conf:cleanConf(o.conf)};
   }
   function stage(text){
     const r=parseBackup(text);
     if(r.err){staged=null;$("importGo").hidden=true;$("importMsg").textContent=r.err;return}
     staged=r; $("importGo").hidden=false;
-    $("importMsg").textContent="シフト"+r.shifts.length+"件と、時給・締日・給料日の設定を読み込みます。同じ記録は上書きし、ない記録は追加します。";
+    $("importMsg").textContent="シフト"+r.shifts.length+"件と、時給・締日・給料日の設定"+((r.adjs.length||Object.keys(r.conf).length)?"、給料日の確認の記録":"")+"を読み込みます。同じ記録は上書きし、ない記録は追加します。";
   }
   $("importFile").onchange=e=>{
     const f=e.target.files&&e.target.files[0]; if(!f) return;
@@ -492,6 +801,8 @@ details[open] summary{margin-bottom:12px}
     const map=new Map(shifts.map(s=>[s.id,s]));
     staged.shifts.forEach(s=>map.set(s.id,s));
     shifts=Array.from(map.values()); jobs=staged.jobs;
+    const am=new Map(adjs.map(a=>[a.id,a])); staged.adjs.forEach(a=>am.set(a.id,a)); adjs=Array.from(am.values());
+    Object.keys(staged.conf).forEach(k=>{conf[k]=staged.conf[k]});
     sampleCleared=true; staged=null; vOff=0;
     save(); renderSettings(); render();
     $("importGo").hidden=true; $("importText").value="";
